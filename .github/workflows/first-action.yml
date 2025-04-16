@@ -1,0 +1,12 @@
+# Create workflow name
+
+name: First workflow
+on: workflow_dispatch
+jobs:
+  first_job:
+    runs-on: ubuntu-lates
+    steps:
+      - name: Print greeting
+        run: echo "Hello"
+      - name: Print Exit
+        run: echo "Good-Bye"
