@@ -1,0 +1,5 @@
+flask
+email_validator
+flask_wtf
+boto3
+dotenv

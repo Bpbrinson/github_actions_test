@@ -3,36 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f8;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            background: #fff;
+            padding: 30px 40px;
+            margin: auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #2196F3;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Contact Form</h1>
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            {% for Categories, message in messages %}
-                <p><strong>{{  message  }}</strong></p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <div class="container">
+        <h1>Contact Form</h1>
 
-    <form method="POST">
-        {{  form.hidden_tag()  }}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="message"><strong>{{ message }}</strong></div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-        <p>
-            {{  form.name.label  }}
-            {{  form.name(size=40)  }}
-        </p>
-        <p>
-            {{  form.email.label  }}
-            {{  form.email(size=40)  }}
-        </p>
-        <p>
-            {{  form.message.label  }}
-            {{  form.message(cols = 50, rows = 5)}}
-        </p>
-        <p>
-            {{  form.submit()  }}
-        </p>
-    </form>
+        <form method="POST" onsubmit="return validateForm()">
+            {{ form.hidden_tag() }}
+
+            <label for="name">{{ form.name.label }}</label>
+            {{ form.name(id='name', size=40) }}
+
+            <label for="email">{{ form.email.label }}</label>
+            {{ form.email(id='email', size=40) }}
+
+            <label for="message">{{ form.message.label }}</label>
+            {{ form.message(id='message', cols=50, rows=5) }}
+
+            <button type="submit" class="submit-btn">{{ form.submit.label.text }}</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            if (!name || !email || !message) {
+                alert("Please fill out all fields before submitting.");
+                return false;
+            }
+
+            // Basic email format check
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!email.match(emailPattern)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 </html>
