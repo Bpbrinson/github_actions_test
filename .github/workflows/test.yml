@@ -1,0 +1,16 @@
+name: My_Project
+on: push
+jobs:
+  first_job:
+    run_on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install -r requirements.txt
+      - name: Run tests
+        run: npm test

@@ -6,7 +6,7 @@ load_dotenv()  # Load environment variables from .env
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = os.getenv('MY_SECRET')
+    app.config.from_object('app.config.Config')
 
     from app.routes import bp as route
     app.register_blueprint(route)
